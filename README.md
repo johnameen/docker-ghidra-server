@@ -1,6 +1,4 @@
-<p align="center">
-  <a href="https://hub.docker.com/r/bytehow/ghidra-server"><h3 align="center">docker-ghidra-server</h3></a>
-  <p align="center">Ghidra Server Docker Image</p>
+# Ghidra Docker Server
 
 ## Why?
 
@@ -9,10 +7,8 @@ Standing up a Ghidra Server in the cloud is a pain. It doesn't have to be. If yo
 ## Images
 
 ```bash
-bytehow/ghidra-server   latest
-bytehow/ghidra-server   9.2      
-bytehow/ghidra-server   9.1.2    
-bytehow/ghidra-server   beta     
+ghidra-server   latest
+ghidra-server   10.1.1
 ```
 
 > **NOTE:** tag `beta` is built by compiling Ghidra from its `master` branch source
@@ -21,6 +17,16 @@ bytehow/ghidra-server   beta
 
 Start the server and connect to port 13100 with a Ghidra client that has a **matching** version. All users will be created as admins and will have initial password `changeme`, which Ghidra will require you to change after you login.
 
+### Quick run
+
+The start script will build the container if it's not already built.
+
+```bash
+./start.sh -h
+
+./start.sh -u "admin bytehow" # Starts server with users "admin" and "noop"
+./start.sh -l # Starts server as Local-only
+```
 
 
 ### Public Server
@@ -61,7 +67,7 @@ Additional information such as capacity planning and other server configuration 
 
 ## Issues
 
-Find a bug? Want more features? Find something missing in the documentation? Let me know! Please don't hesitate to [file an issue](https://github.com/bytehow/docker-ghidra-server/issues/new)
+Find a bug? Want more features? Find something missing in the documentation? Let me know! Please don't hesitate to [file an issue](https://github.com/johnameen/docker-ghidra-server/issues/new)
 
 ## Credits
 
