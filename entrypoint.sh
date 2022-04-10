@@ -5,7 +5,8 @@ set -e
 if [ "$1" = 'server' ]; then
   shift
   # Figure out public address
-  export GHIDRA_PUBLIC_HOSTNAME=${GHIDRA_PUBLIC_HOSTNAME:-$(dig +short myip.opendns.com @resolver1.opendns.com)}
+  export GHIDRA_PUBLIC_HOSTNAME=${GHIDRA_PUBLIC_HOSTNAME:-0.0.0.0}
+  echo HOSTNAME=${GHIDRA_PUBLIC_HOSTNAME}
 
   # Add users
   GHIDRA_USERS=${GHIDRA_USERS:-admin}
