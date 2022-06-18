@@ -1,6 +1,14 @@
+# Cache and Binaires
 *.bu
 *.decompressed
+venv
+__pycache__
+
+# Settings
 .vscode
 dyld_shared_cache*
 System
 projects
+
+# Testing
+tests

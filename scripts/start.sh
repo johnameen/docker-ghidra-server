@@ -1,6 +1,9 @@
-VERSION="10.1.1"
+VERSION="10.1.2"
 GHIDRA_USERS="admin"
 LOCAL_ONLY=""
+# INTERFACE_NAME=$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}')
+# INTERFACE_NAME=eno2
+# IP_ADDRESS=$(ip -o -4 addr list ${INTERFACE_NAME} | awk '{print $4}' | cut -d/ -f1)
 
 usage() { echo "Usage: $0 [-u <string of users>] -l start server as local only" 1>&2; exit 1; }
 
@@ -13,7 +16,7 @@ while getopts ":lu::" o; do
       u)
          GHIDRA_USERS=${OPTARG};;
       l)
-         LOCAL_ONLY='-e GHIDRA_PUBLIC_HOSTNAME="0.0.0.0"';;
+         LOCAL_ONLY='-e GHIDRA_PUBLIC_HOSTNAME='${IP_ADDRESS};;
       *)
          usage;;
    esac
@@ -35,6 +38,7 @@ fi
 docker run -it --rm \
     --name ghidra-server \
     -e GHIDRA_USERS="${GHIDRA_USERS}" ${LOCAL_ONLY}\
-    -v /path/to/repos:/repos \
+    -v /home/john/silverado/ghidra_projects/:/repos \
     -p 13100-13102:13100-13102 \
+    --net=host \
     ghidra_server:latest

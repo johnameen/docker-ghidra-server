@@ -1,0 +1,87 @@
+#********************************************************************
+# Service Wrapper Properties
+#
+# NOTE! The following properties contained within this file may be
+# modified by the ghidraSvr script:
+#   - Wrapper.fork_hack
+#********************************************************************
+
+ghidra:
+  repositories:
+    dir: /repos
+
+wrapper:
+  daemon:
+    update_rc: 98 05
+    run_level_dir: /etc/rcX.d
+  ntservice:
+    name: ghidraSvr
+    displayname: Ghidra Server
+    description: Repo server for Ghidra data files.
+    dependency:
+      1: ""
+    failure_actions:
+      actions: RESTART
+      actions_delay: 60000
+    interactive: false
+    starttype: AUTO_START
+  working:
+    dir: ${ghidra_home}
+  app:
+    parameter:
+      1: -a0
+      2: -u
+      3: -ip${GHIDRA_PUBLIC_HOSTNAME}
+      4: ${ghidra.repositories.dir}
+    # account: ghidra
+  console:
+    title: Ghidra Server
+    format: PM
+    loglevel: INFO
+  _logfile: wrapper.log
+  logfile:
+    format: LPTM
+    loglevel: INFO
+    maxsize: 10m
+    maxfiles: 10
+  launchd:
+    dir: /Library/LaunchDaemons
+  java:
+    command: ${java}
+    umask: 027
+    library:
+      path:
+        1: ${os_dir}
+    monitor:
+      deadlock: true
+    app:
+      mainclass: ghidra.server.remote.GhidraServer
+    initmemory: 396
+    maxmemory: 768
+    startup:
+      timeout: 0
+    ping:
+      timeout: 0
+    additional:
+      1: -Djava.net.preferIPv4Stack=true
+      2: -DApplicationRollingFileAppender.maxBackupIndex=10
+      3: -Dclasspath_frag=${classpath_frag}
+      # 4: -Dghidra.cacerts=./Ghidra/cacerts 
+      # 5: -Dghidra.keystore=
+      # 6: -Dghidra.password=
+      # 7: -Djava.io.tmpdir=C:\\Windows\\Temp
+      # 8: -Ddb.buffers.DataBuffer.compressedOutput=true
+      # 9: -Xdebug
+      # 10: -Xnoagent
+      # 11: -Djava.compiler=NONE
+      # 12: -Xrunjdwp:transport=dt_socket\,server=y\,suspend=n\,address=*:18200
+      # 13=-Dcom.sun.management.jmxremote.port=9010
+      # 14=-Dcom.sun.management.jmxremote.local.only=false
+      # 15=-Dcom.sun.management.jmxremote.authenticate=false
+      # 16=-Dcom.sun.management.jmxremote.ssl=false
+    # _debug: true
+    # debug:
+    #   port: 18200
+  # fork_hack: true
+
+include: ${classpath_frag}

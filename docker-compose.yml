@@ -1,0 +1,11 @@
+services:
+  ghidra-server:
+    image: ghidra:server_${VERSION}
+    build:
+      context: ./
+      dockerfile: dockerfiles/Dockerfile_${BUILD_TYPE}
+      args:
+        - version=${VERSION}
+        - file_name=${FILE_NAME}
+        - dl_URL=${DL_URL}
+        - ghidra_sha=ac96fbdde7f754e0eb9ed51db020e77208cdb12cf58c08657a2ab87cb2694940
